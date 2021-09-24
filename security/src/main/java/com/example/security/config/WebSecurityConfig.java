@@ -2,7 +2,9 @@ package com.example.security.config;
 
 import com.example.security.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * @create: 2021-09-24 07:49
  **/
 @EnableWebSecurity
+//必须开启 要不然注解不能用
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -42,13 +46,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
+
+    /**
+     * 加密算法 自带加盐
+     * @return BCryptPasswordEncoder
+     */
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
 
     public static void main(String[] args) {
         //$2a$10$r8G5IAYKzNbVRs4mCGCAMuWp8aSY17NipAQHUGMcLaNnaz9oSVOkS
-//        String encode = new BCryptPasswordEncoder().encode("1234");
-//        System.out.println(encode);
+        //$2a$10$IrknGL2lt17yDtYbKeNIweR1jiBe33ap2pAyrZ.ehNwyuSS3YfVMG
+        //$2a$10$hYdHHuayUV7xIcqR3F6Rre/h2TTOgUI122hrwcqYXUhPNcP03Ucdq
+        String encode = new BCryptPasswordEncoder().encode("1234");
+        System.out.println(encode);
 
         boolean flag = new BCryptPasswordEncoder().matches("1235",
                 "$2a$10$r8G5IAYKzNbVRs4mCGCAMuWp8aSY17NipAQHUGMcLaNnaz9oSVOkS");

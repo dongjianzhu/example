@@ -12,7 +12,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SecurityApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SecurityApplication.class, args);
+        try {
+            SpringApplication.run(SecurityApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

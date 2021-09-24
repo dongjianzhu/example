@@ -1,6 +1,7 @@
 package com.example.security.controller;
 
 import com.example.security.entity.User;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,6 +31,27 @@ public class SecurityController {
     @ResponseBody
     public String success(){
         return "login success";
+    }
+
+    @RequestMapping("/admin")
+    @ResponseBody
+    @PreAuthorize("hasRole('admin')")
+    public String admin(){
+        return "拥有admin角色";
+    }
+
+    @RequestMapping("/user")
+    @ResponseBody
+    @PreAuthorize("hasRole('user')")
+    public String user(){
+        return "拥有user角色";
+    }
+
+    @RequestMapping("/adminOrUserb ")
+    @ResponseBody
+    @PreAuthorize("hasAnyRole('user','admin')")
+    public String adminOrUser(){
+        return "拥有admin或者User角色";
     }
 
 }
