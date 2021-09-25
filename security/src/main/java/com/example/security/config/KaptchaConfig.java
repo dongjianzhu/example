@@ -21,9 +21,9 @@ public class KaptchaConfig {
         properties.setProperty("kaptcha.border", "yes");
         properties.setProperty("kaptcha.border.color", "105,179,90");
         properties.setProperty("kaptcha.textproducer.font.color", "blue");
-        properties.setProperty("kaptcha.image.width", "100");
-        properties.setProperty("kaptcha.image.height", "25");
-        properties.setProperty("kaptcha.textproducer.font.size", "27");
+        properties.setProperty("kaptcha.image.width", "120");
+        properties.setProperty("kaptcha.image.height", "40");
+        properties.setProperty("kaptcha.textproducer.font.size", "25");
         properties.setProperty("kaptcha.session.key", "code");
         properties.setProperty("kaptcha.textproducer.char.length", "4");
         properties.setProperty("kaptcha.textproducer.font.names", "宋体,楷体,微软雅黑");
