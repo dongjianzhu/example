@@ -6,17 +6,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author: dongjianzhu
- * @create: 2021-09-24 07:48
- **/
+ * @create: 2021-09-24 07:Post**/
 @Controller
 public class SecurityController {
 
-    @RequestMapping({"/", "/index"})
+    @PostMapping({"/", "/index"})
     public String index(Model model){
         model.addAttribute("name", "dongjianzhu");
         System.out.println("xxxx");
@@ -25,6 +25,11 @@ public class SecurityController {
         User principal = (User) authentication.getPrincipal();
         System.out.println(principal);
         return "index";
+    }
+
+    @RequestMapping("/login.html")
+    public String login(){
+        return "login";
     }
 
     @RequestMapping("/success")

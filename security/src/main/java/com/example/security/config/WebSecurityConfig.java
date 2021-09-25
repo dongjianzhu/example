@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -46,7 +47,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //可以放行URL.antMatcher("")
             .formLogin().loginPage("/login.html").permitAll().loginProcessingUrl("/login")
             .successHandler(new MyAuthenticationSuccessHandler()).failureHandler(new MyAuthenticationFailureHandler())
-            .and().exceptionHandling().and().csrf().disable().rememberMe().userDetailsService(userDetailsService)
+            .and().exceptionHandling().and().csrf().csrfTokenRepository(new HttpSessionCsrfTokenRepository())
+                //针对post提交，需要前台传X-CSRF-TOKEN
+                .ignoringAntMatchers("/login")
+                //禁用csrf防御
+//                .disable()
+                .and().rememberMe().userDetailsService(userDetailsService)
             //配置一个固定的key 以防多实例web服务 remember-me失效
             .key("uuid").and().sessionManagement().maximumSessions(1);
                 //默认是false  达到最大会话数量 而不是 踢掉旧的会话 而是阻止新的会话
