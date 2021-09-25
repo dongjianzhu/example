@@ -10,10 +10,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author: dongjianzhu
@@ -34,19 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //可以放行URL
                 //.antMatcher("")
             .formLogin().loginPage("/login.html").permitAll().loginProcessingUrl("/login")
-            .successHandler((request, response, authentication) -> {
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json");
-                response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"200\"," +
-                        "\"message\": \"Login successfully.\",\"serverTime\": " + System.currentTimeMillis() +"}");
-            }).failureHandler((request, response, exception) -> {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json");
-                response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"401\"," +
-                        "\"message\": \""+ exception.getMessage() +"\",\"serverTime\": " + System.currentTimeMillis() +"}");
-            }).and().exceptionHandling().and().csrf().disable().sessionManagement().maximumSessions(1);
+            .successHandler(new MyAuthenticationSuccessHandler()).failureHandler(new MyAuthenticationFailureHandler()).and().exceptionHandling().and().csrf().disable().sessionManagement().maximumSessions(1);
         //将kaptchaFilter放在UsernamePasswordAuthenticationFilter之前
         http.addFilterBefore(new KaptchaFilter(), UsernamePasswordAuthenticationFilter.class);
     }
@@ -59,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         //放行验证码
-        web.ignoring().antMatchers("/kaptcha");
+        web.ignoring().antMatchers("/kaptcha.jpg");
     }
 
     /**
@@ -71,17 +63,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
-    public static void main(String[] args) {
-        //$2a$10$r8G5IAYKzNbVRs4mCGCAMuWp8aSY17NipAQHUGMcLaNnaz9oSVOkS
-        //$2a$10$IrknGL2lt17yDtYbKeNIweR1jiBe33ap2pAyrZ.ehNwyuSS3YfVMG
-        //$2a$10$hYdHHuayUV7xIcqR3F6Rre/h2TTOgUI122hrwcqYXUhPNcP03Ucdq
-        String encode = new BCryptPasswordEncoder().encode("1234");
-        System.out.println(encode);
-
-        boolean flag = new BCryptPasswordEncoder().matches("1235",
-                "$2a$10$r8G5IAYKzNbVRs4mCGCAMuWp8aSY17NipAQHUGMcLaNnaz9oSVOkS");
-        System.out.println(flag);
+    /**
+     *  认证成功的handler
+     */
+    public static class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+        @Override
+        public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"200\"," +
+                    "\"message\": \"Login successfully.\",\"serverTime\": " + System.currentTimeMillis() +"}");
+        }
     }
 
 }
