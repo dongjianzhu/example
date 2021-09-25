@@ -15,7 +15,7 @@ import java.util.Properties;
 public class KaptchaConfig {
 
     @Bean
-    public DefaultKaptcha captchaProducer(){
+    public DefaultKaptcha defaultKaptcha(){
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
         properties.setProperty("kaptcha.border", "yes");
