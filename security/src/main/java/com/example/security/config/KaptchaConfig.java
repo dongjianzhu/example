@@ -21,7 +21,7 @@ public class KaptchaConfig {
         properties.setProperty("kaptcha.border", "yes");
         properties.setProperty("kaptcha.border.color", "105,179,90");
         properties.setProperty("kaptcha.textproducer.font.color", "blue");
-        properties.setProperty("kaptcha.image.width", "120");
+        properties.setProperty("kaptcha.image.width", "100");
         properties.setProperty("kaptcha.image.height", "40");
         properties.setProperty("kaptcha.textproducer.font.size", "25");
         properties.setProperty("kaptcha.session.key", "code");
@@ -33,7 +33,7 @@ public class KaptchaConfig {
         properties.setProperty("kaptcha.noise.impl", "com.google.code.kaptcha.impl.DefaultNoise");
         properties.setProperty("kaptcha.background.clear.from", "185,56,213");
         properties.setProperty("kaptcha.background.clear.to", "white");
-        properties.setProperty("kaptcha.textproducer.char.space", "3");
+        properties.setProperty("kaptcha.textproducer.char.space", "5");
         Config config = new Config(properties);
         defaultKaptcha.setConfig(config);
         return defaultKaptcha;
