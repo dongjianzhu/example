@@ -23,10 +23,6 @@ spring:
     port: 6379
     password: foobared
     host: 192.168.206.130
-  security:
-    user:
-      name: dongjianzhu
-      password: 1234
 logging:
   config: classpath:logback-spring.xml
 server:
