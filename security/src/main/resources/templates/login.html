@@ -12,7 +12,7 @@
         password:<input name="password" type="text"/>
         kaptcha:<img src="/kaptcha.jpg"><input name="kaptcha"/>
         remeber me:<input name="remember-me" checked="checked" type="checkbox" value="true">
-        <input type="hidden" th:attr="name=${_csrf.headerName},value=${_csrf.token}">
+        <!--<input type="hidden" th:attr="name=${_csrf.headerName},value=${_csrf.token}">-->
         <button>submit</button>
     </form>
 </div>
