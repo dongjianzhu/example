@@ -1,5 +1,6 @@
 package com.example.security.config;
 
+import com.example.security.filter.KaptchaFilter;
 import com.example.security.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -45,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"401\"," +
                         "\"message\": \""+ exception.getMessage() +"\",\"serverTime\": " + System.currentTimeMillis() +"}");
             }).and().exceptionHandling().and().csrf().disable().sessionManagement().maximumSessions(1);
+        //将kaptchaFilter放在UsernamePasswordAuthenticationFilter之前
+        http.addFilterBefore(new KaptchaFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
