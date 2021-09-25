@@ -35,10 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         //所有请求需要认证
         http.authorizeRequests(requests -> requests.anyRequest().authenticated())
-                //可以放行URL
-                //.antMatcher("")
+            //可以放行URL.antMatcher("")
             .formLogin().loginPage("/login.html").permitAll().loginProcessingUrl("/login")
-            .successHandler(new MyAuthenticationSuccessHandler()).failureHandler(new MyAuthenticationFailureHandler()).and().exceptionHandling().and().csrf().disable().sessionManagement().maximumSessions(1);
+            .successHandler(new MyAuthenticationSuccessHandler()).failureHandler(new MyAuthenticationFailureHandler())
+            .and().exceptionHandling().and().csrf().disable().rememberMe().userDetailsService(userDetailsService)
+            //配置一个固定的key 以防多实例web服务 remember-me失效
+            .key("uuid").and().sessionManagement().invalidSessionUrl("/session/invalid").maximumSessions(1);
         //将kaptchaFilter放在UsernamePasswordAuthenticationFilter之前
         http.addFilterBefore(new KaptchaFilter(), UsernamePasswordAuthenticationFilter.class);
     }

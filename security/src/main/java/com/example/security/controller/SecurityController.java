@@ -28,9 +28,13 @@ public class SecurityController {
     }
 
     @RequestMapping("/success")
-    @ResponseBody
-    public String success(){
+    public @ResponseBody String success(){
         return "login success";
+    }
+
+    @RequestMapping("/session/invalid")
+    public @ResponseBody String sessionInvalid(){
+        return "会话超时或无效";
     }
 
     @RequestMapping("/admin")

@@ -6,12 +6,14 @@
 </head>
 <body>
 <h1>static login</h1>
-<form method="post" action="/login">
-    user:<input name="username" type="text"/>
-    password:<input name="password" type="text"/>
-    kaptcha:<img src="/kaptcha.jpg">
-    <input name="kaptcha"/>
-    <button>submit</button>
-</form>
+<div>
+    <form method="post" action="/login">
+        user:<input name="username" type="text"/>
+        password:<input name="password" type="text"/>
+        kaptcha:<img src="/kaptcha.jpg"><input name="kaptcha"/>
+        remeber me:<input name="remember-me" checked="checked" type="checkbox" value="true">
+        <button>submit</button>
+    </form>
+</div>
 </body>
 </html>
