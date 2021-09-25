@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 @EnableWebSecurity
 //必须开启 要不然注解不能用
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired

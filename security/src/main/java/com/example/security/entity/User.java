@@ -34,6 +34,8 @@ public class User implements UserDetails {
 
     /**
      * 角色
+     * ps:如果是角色必须以 <strong> ROLE_ </strong> 作为前缀
+     * 权限不用加
      */
     private String roles;
 

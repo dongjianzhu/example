@@ -1,11 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <h1>templates index</h1>
-<h2 th:text="${name}"></h2>
+<h2>name:<span sec:authentication="name"></span></h2>
+<h2>principal.username:<span sec:authentication="principal.username"></span></h2>
+<h2>credentials:<span sec:authentication="credentials"></span></h2>
+<h2>authorities:<span style="color: red"  sec:authentication="authorities"></span></h2>
+<h2>details.remoteAddress:<span sec:authentication="details.remoteAddress"></span></h2>
+<h2>details.sessionId:<span sec:authentication="details.sessionId"></span></h2>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" th:value="注销登录">
+</form>
 </body>
 </html>

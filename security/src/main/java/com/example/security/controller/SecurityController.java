@@ -34,24 +34,32 @@ public class SecurityController {
     }
 
     @RequestMapping("/admin")
-    @ResponseBody
     @PreAuthorize("hasRole('admin')")
-    public String admin(){
+    public @ResponseBody String admin(){
         return "拥有admin角色";
     }
 
     @RequestMapping("/user")
-    @ResponseBody
     @PreAuthorize("hasRole('user')")
-    public String user(){
+    public @ResponseBody String user(){
         return "拥有user角色";
     }
 
-    @RequestMapping("/adminOrUserb ")
-    @ResponseBody
+    @RequestMapping("/adminOrUser")
     @PreAuthorize("hasAnyRole('user','admin')")
-    public String adminOrUser(){
+    public @ResponseBody String adminOrUser(){
         return "拥有admin或者User角色";
     }
 
+    @RequestMapping("/remove")
+    @PreAuthorize("hasRole('admin') and hasAuthority('remove')")
+    public @ResponseBody String remove(){
+        return "拥有admin角色,并且具有remove权限";
+    }
+
+    @RequestMapping("/update")
+    @PreAuthorize("hasAuthority('update')")
+    public @ResponseBody String update(){
+        return "具有update权限";
+    }
 }
