@@ -39,6 +39,7 @@ public class KaptchaFilter extends OncePerRequestFilter {
 
     private void verifyCaptcha(HttpServletRequest httpServletRequest) throws KaptchaException{
         String kaptcha = httpServletRequest.getParameter("kaptcha");
+        System.out.println("kaptcha --> " + kaptcha);
         HttpSession session = httpServletRequest.getSession();
         String capText = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
         boolean hasText = StringUtils.hasText(capText);
@@ -46,7 +47,7 @@ public class KaptchaFilter extends OncePerRequestFilter {
             //无论失败还是成功，随手清楚session中的验证码。客户端在登录失败时刷新验证码
             session.removeAttribute(Constants.KAPTCHA_SESSION_KEY);
         }
-        if(!hasText || StringUtils.hasText(kaptcha) || !kaptcha.equalsIgnoreCase(capText)){
+        if(!hasText || !StringUtils.hasText(kaptcha) || !kaptcha.equalsIgnoreCase(capText)){
             throw new KaptchaException();
         }
     }
