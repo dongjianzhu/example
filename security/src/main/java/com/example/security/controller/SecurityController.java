@@ -32,10 +32,10 @@ public class SecurityController {
         return "login success";
     }
 
-    @RequestMapping("/session/invalid")
-    public @ResponseBody String sessionInvalid(){
-        return "会话超时或无效";
-    }
+//    @RequestMapping("/session/invalid")
+//    public @ResponseBody String sessionInvalid(){
+//        return "会话超时或无效";
+//    }
 
     @RequestMapping("/admin")
     @PreAuthorize("hasRole('admin')")
