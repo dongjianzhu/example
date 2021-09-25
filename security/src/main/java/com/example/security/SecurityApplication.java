@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.example.security.mapper")
+//@ImportResource(locations = {"classpath:kaptcha.xml"})
 public class SecurityApplication {
 
     public static void main(String[] args) {
