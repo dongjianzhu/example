@@ -40,7 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .successHandler(new MyAuthenticationSuccessHandler()).failureHandler(new MyAuthenticationFailureHandler())
             .and().exceptionHandling().and().csrf().disable().rememberMe().userDetailsService(userDetailsService)
             //配置一个固定的key 以防多实例web服务 remember-me失效
-            .key("uuid").and().sessionManagement().invalidSessionUrl("/session/invalid").maximumSessions(1);
+            .key("uuid").and().sessionManagement().maximumSessions(1);
+                //默认是false  达到最大会话数量 而不是 踢掉旧的会话 而是阻止新的会话
+//                .maxSessionsPreventsLogin(true);
         //将kaptchaFilter放在UsernamePasswordAuthenticationFilter之前
         http.addFilterBefore(new KaptchaFilter(), UsernamePasswordAuthenticationFilter.class);
     }
