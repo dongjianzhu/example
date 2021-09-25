@@ -27,23 +27,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and().formLogin().loginPage("/login.html")
-                .permitAll().loginProcessingUrl("/login")
-                .successHandler((request, response, authentication) -> {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.setCharacterEncoding("UTF-8");
-                    response.setContentType("application/json");
-                    response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"200\"," +
-                            "\"message\": \"Login successfully.\",\"serverTime\": " + System.currentTimeMillis() +"}");
-                }).failureHandler((request, response, exception) -> {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.setCharacterEncoding("UTF-8");
-                    response.setContentType("application/json");
-                    response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"401\"," +
-                            "\"message\": \""+ exception.getMessage() +"\",\"serverTime\": " + System.currentTimeMillis() +"}");
-                }).and().exceptionHandling().and().csrf().disable().sessionManagement().maximumSessions(1);
         //所有请求需要认证
-        http.authorizeRequests(requests -> requests.anyRequest().authenticated());
+        http.authorizeRequests(requests -> requests.anyRequest().authenticated())
+                //可以放行URL
+                //.antMatcher("")
+            .formLogin().loginPage("/login.html").permitAll().loginProcessingUrl("/login")
+            .successHandler((request, response, authentication) -> {
+                response.setStatus(HttpServletResponse.SC_OK);
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"200\"," +
+                        "\"message\": \"Login successfully.\",\"serverTime\": " + System.currentTimeMillis() +"}");
+            }).failureHandler((request, response, exception) -> {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/json");
+                response.getWriter().println("{\"exceptionId\":\"null\",\"messageCode\":\"401\"," +
+                        "\"message\": \""+ exception.getMessage() +"\",\"serverTime\": " + System.currentTimeMillis() +"}");
+            }).and().exceptionHandling().and().csrf().disable().sessionManagement().maximumSessions(1);
     }
 
     @Override
