@@ -7,8 +7,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="helloWorld" />
         <module name="security" />
+        <module name="shiro" />
+        <module name="helloWorld" />
         <module name="example" />
       </profile>
     </annotationProcessing>
@@ -17,6 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="helloWorld" options="-parameters" />
       <module name="security" options="-parameters" />
+      <module name="shiro" options="-parameters" />
     </option>
   </component>
 </project>
