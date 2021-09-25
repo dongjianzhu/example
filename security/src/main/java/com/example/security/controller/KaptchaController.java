@@ -25,7 +25,7 @@ public class KaptchaController {
     @Autowired
     private DefaultKaptcha defaultKaptcha;
 
-    @RequestMapping("/kaptcha")
+    @RequestMapping("/kaptcha.jpg")
     public void kaptcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         response.setDateHeader("Expires", 0);
