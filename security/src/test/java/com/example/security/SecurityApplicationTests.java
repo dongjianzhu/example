@@ -7,7 +7,7 @@ class SecurityApplicationTests {
 
     @Test
     void contextLoads() {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         for (int i = 0; i < 3; i++) {
             String encode = passwordEncoder.encode("1234");
             System.out.println(encode);

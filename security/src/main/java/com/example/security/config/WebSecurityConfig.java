@@ -14,10 +14,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author: dongjianzhu
@@ -35,6 +40,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         //所有请求需要认证
         http.authorizeRequests(requests -> requests.anyRequest().authenticated())
+                //启用跨域请求
+                .cors()
+                .and()
             //可以放行URL.antMatcher("")
             .formLogin().loginPage("/login.html").permitAll().loginProcessingUrl("/login")
             .successHandler(new MyAuthenticationSuccessHandler()).failureHandler(new MyAuthenticationFailureHandler())
@@ -56,6 +64,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         //放行验证码
         web.ignoring().antMatchers("/kaptcha.jpg");
+    }
+
+    /**
+     * 跨域配置
+     * @return
+     */
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration configuration = new CorsConfiguration();
+        //允许从百度站点跨域
+        configuration.setAllowedOrigins(Collections.singletonList("https://www.baidu.com"));
+        //允许GET POST 请求
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST"));
+        //允许带凭证（一般指cookie）
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        //对所有URL 有效
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     /**
