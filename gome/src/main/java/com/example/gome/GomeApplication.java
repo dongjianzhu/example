@@ -7,7 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GomeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GomeApplication.class, args);
+        try {
+            SpringApplication.run(GomeApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
