@@ -1,6 +1,8 @@
 package com.example.gome.controller;
 
+import com.example.gome.entity.GomeOAuth2User;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,7 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class SecurityController {
 
     @RequestMapping("/hello")
-    public String hello(Authentication authentication){
-        return authentication.getName();
+    public String hello(){
+        System.out.println("xxx");
+        return "hello";
     }
+
+    @RequestMapping(value = {"/","/index"})
+    public GomeOAuth2User index(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (GomeOAuth2User) authentication.getPrincipal();
+    }
+
 }

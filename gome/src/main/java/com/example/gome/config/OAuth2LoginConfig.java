@@ -1,5 +1,6 @@
 package com.example.gome.config;
 
+import com.example.gome.constant.GomeConstant;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
@@ -22,16 +23,17 @@ public class OAuth2LoginConfig {
     }
 
     private ClientRegistration gomeClientRegistration() {
-        return ClientRegistration.withRegistrationId("google")
-                .clientId("c52e799904a84598ad23b5b91f46184f")
-                .clientSecret("474a73f61b74483982eea7864a24e2f4")
+        return ClientRegistration.withRegistrationId("gome")
+                .clientId(GomeConstant.CLIENT_ID)
+                .clientSecret(GomeConstant.CLIENT_SECRET)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/gome")
-                .scope("openid", "profile", "email", "address", "phone")
-                .authorizationUri("http://oauth.gome.com.cn/authorize")
-                .tokenUri("http://oauth.gome.com.cn/token")
-//                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
+                .redirectUri(GomeConstant.REDIRECT_URI)
+                .scope("profile", "email", "address", "phone")
+                .authorizationUri(GomeConstant.AUTHORIZATION_URI)
+                .tokenUri(GomeConstant.TOKEN_URI)
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+//                .userInfoUri("https://oauth.gome.com.cn/user")
                 .userNameAttributeName(IdTokenClaimNames.SUB)
 //                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
                 .clientName("gome")

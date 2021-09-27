@@ -1,9 +1,12 @@
 package com.example.gome.config;
 
+import com.example.gome.service.impl.GomeOAuth2UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
 
 /**
  * @author: dongjianzhu
@@ -14,10 +17,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+    @Autowired
+    GomeOAuth2UserServiceImpl gomeOAuth2UserService;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests(authorize -> authorize.anyRequest().authenticated())
-                .csrf().disable().oauth2Login();
+        http.authorizeRequests(authorize -> {
+                    authorize.anyRequest().authenticated();
+                })
+                .csrf().disable()
+                .oauth2Login().tokenEndpoint().accessTokenResponseClient(new DefaultAuthorizationCodeTokenResponseClient())
+                .and()
+                .userInfoEndpoint()
+                .userService(gomeOAuth2UserService);
     }
+
 
 }
