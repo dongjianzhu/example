@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.io.Serializable;
@@ -24,13 +23,18 @@ public class GomeOAuth2User implements OAuth2User, Serializable {
     private static final long serialVersionUID = 5585109542883481681L;
 
     /**
+     * 权限OAuth2定义的，可以从接口获取
      * 统一USER角色
+     * 如果有权限需要在设置
+     * private List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
      */
-    private List<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList("ROLE_USER");
+    @TableField(exist = false)
+    private List<GrantedAuthority> authorities;
 
     /**
-     *
+     * 额外的属性OAuth2定义的
      */
+    @TableField(exist = false)
     private Map<String, Object> attributes;
 
     /**

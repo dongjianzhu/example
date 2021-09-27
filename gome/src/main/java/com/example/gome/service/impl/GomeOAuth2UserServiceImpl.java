@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @author: dongjianzhu
@@ -40,6 +41,7 @@ public class GomeOAuth2UserServiceImpl implements GomeOAuth2UserService, OAuth2U
         Instant issuedAt = accessToken.getIssuedAt();
         Instant expiresAt = accessToken.getExpiresAt();
         String token = accessToken.getTokenValue();
+        Map<String, Object> additionalParameters = userRequest.getAdditionalParameters();
         DefaultGmosClient defaultGmosClient = new DefaultGmosClient(GomeConstant.SERVER_URI, GomeConstant.CLIENT_ID, GomeConstant.CLIENT_SECRET, token);
         GomeShopShopInfoGetRequest request = new GomeShopShopInfoGetRequest();
         GomeShopShopInfoGetResponse response = defaultGmosClient.execute(request);
@@ -50,6 +52,7 @@ public class GomeOAuth2UserServiceImpl implements GomeOAuth2UserService, OAuth2U
         gomeOAuth2User.setIssuedAt(Date.from(issuedAt));
         assert expiresAt != null;
         gomeOAuth2User.setExpiresAt(Date.from(expiresAt));
+        gomeOAuth2User.setAttributes(additionalParameters);
         return gomeOAuth2User;
     }
 }
