@@ -4,11 +4,13 @@ import cn.com.gome.cloud.openplatform.bridge.core.client.DefaultGmosClient;
 import com.example.gome.constant.GomeConstant;
 import com.example.gome.entity.GomeOAuth2User;
 import com.example.gome.entity.mapper.UserConverter;
+import com.example.gome.mapper.GomeOAuth2UserMapper;
 import com.example.gome.service.GomeOAuth2UserService;
 import gome.open.api.sdk.cloud.client.domain.bridge.client.request.GomeShopShopInfoGetRequest;
 import gome.open.api.sdk.cloud.client.domain.bridge.client.response.GomeShopShopInfoGetResponse;
 import gome.open.api.sdk.cloud.client.domain.bridge.client.vo.ShopInfo;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -28,11 +30,11 @@ import java.util.Map;
 public class GomeOAuth2UserServiceImpl implements GomeOAuth2UserService, OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
 
+    @Autowired
+    GomeOAuth2UserMapper gomeOAuth2UserMapper;
+
     /**
      * 从gome调取api获取shoInfo封装成GomeOAuth2User
-     * @param userRequest
-     * @return
-     * @throws OAuth2AuthenticationException
      */
     @SneakyThrows
     @Override
@@ -53,6 +55,7 @@ public class GomeOAuth2UserServiceImpl implements GomeOAuth2UserService, OAuth2U
         assert expiresAt != null;
         gomeOAuth2User.setExpiresAt(Date.from(expiresAt));
         gomeOAuth2User.setAttributes(additionalParameters);
+        gomeOAuth2UserMapper.saveOrUpdate(gomeOAuth2User);
         return gomeOAuth2User;
     }
 }

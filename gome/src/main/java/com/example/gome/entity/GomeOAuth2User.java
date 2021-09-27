@@ -2,6 +2,7 @@ package com.example.gome.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -18,6 +19,7 @@ import java.util.Map;
  * @create: 2021-09-24 10:25
  **/
 @Data
+@TableName("shop")
 public class GomeOAuth2User implements OAuth2User, Serializable {
 
     private static final long serialVersionUID = 5585109542883481681L;
@@ -50,7 +52,7 @@ public class GomeOAuth2User implements OAuth2User, Serializable {
     private String token;
 
     /**
-     * token过期时间
+     * token被获取使用时间
      */
     private Date issuedAt;
 
@@ -58,11 +60,6 @@ public class GomeOAuth2User implements OAuth2User, Serializable {
      * token过期时间
      */
     private Date expiresAt;
-
-    /**
-     *
-     */
-    private String openName;
 
     /**
      * 店铺编号
@@ -149,6 +146,16 @@ public class GomeOAuth2User implements OAuth2User, Serializable {
      * 	状态：0：已初始化；1：待初始化；2：冻结；3：休店：4：营业；5：关闭； 6：已发送；7：oa审核失败；8：atg审核失败
      */
     private Short status;
+
+    /**
+     * 插入时间
+     */
+    private Date gmtCreated;
+
+    /**
+     * 更新时间
+     */
+    private Date gmtModified;
 
     @Override
     public Map<String, Object> getAttributes() {

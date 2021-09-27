@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.gome.mapper.GomeOAuth2UserMapper">
+
+    <insert id="saveOrUpdate">
+        INSERT INTO shop(vendor_id, shop_name, token, issued_at, expires_at, shop_level, shop_type, logo, description,
+                         create_time, modify_time, corp_name, city, address, undertacker, phone, credibility_score,
+                         service_score, sell_ctgy, status, gmt_created, gmt_modified)
+        VALUES (#{venderId}, #{name}, #{token}, #{issuedAt}, #{expiresAt}, #{shopLevel}, #{shopType}, #{logo},
+                #{description}, #{createTime}, #{modifyTime}, #{corpName}, #{city}, #{address}, #{undertacker},
+                #{phone}, #{credibilityScore}, #{serviceScore}, #{sellCtgy}, #{status}, #{gmtCreated},
+                #{gmtModified}) ON DUPLICATE KEY
+        UPDATE token = values (token), issued_at= values (issued_at), expires_at = values (expires_at), modify_time =
+        values (modify_time), credibility_score = values (credibility_score), service_score = values(service_score),
+            status = values(status)
+    </insert>
+</mapper>
