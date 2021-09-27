@@ -8,8 +8,8 @@
                          service_score, sell_ctgy, status, gmt_created, gmt_modified)
         VALUES (#{venderId}, #{name}, #{token}, #{issuedAt}, #{expiresAt}, #{shopLevel}, #{shopType}, #{logo},
                 #{description}, #{createTime}, #{modifyTime}, #{corpName}, #{city}, #{address}, #{undertacker},
-                #{phone}, #{credibilityScore}, #{serviceScore}, #{sellCtgy}, #{status}, #{gmtCreated},
-                #{gmtModified}) ON DUPLICATE KEY
+                #{phone}, #{credibilityScore}, #{serviceScore}, #{sellCtgy}, #{status}, now(),  now())
+                ON DUPLICATE KEY
         UPDATE token = values (token), issued_at= values (issued_at), expires_at = values (expires_at), modify_time =
         values (modify_time), credibility_score = values (credibility_score), service_score = values(service_score),
             status = values(status)
