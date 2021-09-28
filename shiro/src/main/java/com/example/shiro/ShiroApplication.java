@@ -7,7 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ShiroApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShiroApplication.class, args);
+        try {
+            SpringApplication.run(ShiroApplication.class, args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

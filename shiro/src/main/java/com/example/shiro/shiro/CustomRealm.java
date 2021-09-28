@@ -12,6 +12,7 @@ import org.apache.shiro.subject.PrincipalCollection;
  * @create: 2021-09-25 23:15
  **/
 public class CustomRealm extends AuthorizingRealm {
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         return null;

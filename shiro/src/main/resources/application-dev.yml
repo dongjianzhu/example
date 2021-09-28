@@ -23,7 +23,7 @@ spring:
     port: 6379
     password: foobared
     host: 192.168.206.130
-    database: 1
+    database: 2
     lettuce:
       shutdown-timeout: 100 # 关闭超时时间
       pool:
